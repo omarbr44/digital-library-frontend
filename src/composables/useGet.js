@@ -1,23 +1,23 @@
 import { ref } from "vue";
 import axios from "axios";
+import geturl from "./geturl";
 
 const awaitdata = ref(null)
 const awaiterror = ref(null)
+const url = geturl()
 
-
-   export async function useGet(){
+   export async function useGet(api){
    await axios({
-        url:"https://api.api-ninjas.com/v1/animals?name=fox",
+        url:url+api,
         method: 'get',
         headers:{
           //'content-type': 'multipart/form-data'
           'content-type': 'application/json',
-          'X-Api-Key': 'zbPvmgHkTv7t7roYr+4P/w==9Xxm6QAAmkRVKYCc'
         }
       }).then((res)=>{
-        awaitdata.value= res
+        awaitdata.value= res.data.data
       }).catch((err)=>{
-        awaiterror.value= err
+        awaiterror.value= err.data.data
       })
       return { awaitdata,awaiterror } 
       

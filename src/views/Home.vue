@@ -4,7 +4,6 @@
        <div class="row align-items-lg-center">
          <div class="col-8 mx-auto col-md-4 order-md-1 col-lg-6" data-aos="fade-up" data-aos-delay="200">
            <img src="@/assets/img/LandingPageImagecopy.png" width="700" height="533" class="img-fluid mb-3 mb-md-0" role="img" viewBox="0 0 900 800">
-           
          </div>
          <div class="col-md-8 order-md-2 col-lg-6 text-center text-md-end" data-aos="zoom-in" data-aos-delay="250">
            <h1 class="mb-3 display-1 fw-bold"> 
@@ -191,14 +190,23 @@
 </template>
 
 <script setup>
-//import { useGet } from "../composables/useGet";
+import { useGet } from "../composables/useGet";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import Loading from "../components/Loading.vue";
+import { ref,watchEffect } from "vue";
 
-//const { data,error } = useGet()
+const data = ref(null)
+const error = ref(null)
+
+watchEffect(async ()=>{
+        const { awaitdata,awaiterror } = await useGet() 
+        data.value = awaitdata.value.data.data[0]
+        error.value = awaiterror
+    })
+
 </script>
 
 <style  scoped>

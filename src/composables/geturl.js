@@ -1,4 +1,4 @@
-/*const geturl = () => {
-    return 'https://h0tal.pythonanywhere.com/'
+const geturl = () => {
+    return 'http://127.0.0.1:8000/'
 }
-export default geturl*/
+export default geturl

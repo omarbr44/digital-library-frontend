@@ -6,19 +6,18 @@ const awaitdata = ref(null)
 const awaiterror = ref(null)
 const url = geturl()
 
-   export async function usePost(api,body){
+   export async function usePostMultipart(api,body){
    await axios({
         url:url+api,
         method: 'post',
         data: body,
         headers:{
           'content-type': 'multipart/form-data',
-          'content-type': 'application/json',
         } 
       }).then((res)=>{
         awaitdata.value= res.data.data
       }).catch((err)=>{
-        awaiterror.value= err.data.data
+        awaiterror.value= err.response.data.data
       })
       return { awaitdata,awaiterror } 
       

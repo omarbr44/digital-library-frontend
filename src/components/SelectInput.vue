@@ -6,9 +6,7 @@
     <select class="form-select mb-3" aria-label="Default select example" required :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)" v-bind="$attrs">
         <option selected disabled>{{ label }}</option>
-        <option value="1">برمجة</option>
-        <option value="2">شبكات</option>
-        <option value="3">صيانة</option>
+        <option v-for="key in list" :value="key.id" :key="key.id">{{ key.name }}</option>
     </select>
 </template>
 
@@ -26,6 +24,10 @@ const props = defineProps({
         type: [String, Number],
         default: ""
     },
+    list:{
+        type: Array,
+        default: []
+    }
 })
 
 
