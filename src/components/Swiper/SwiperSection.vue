@@ -22,39 +22,15 @@
       },
     }"
 >
-<swiper-slide 
+<swiper-slide v-for="key in props.similar[0]" :key="key.id"
 >
-<img
-src="../assets/img/think.jpeg" class="shadow-sm p-3 bg-body" > 
-<div class="under-img under-img" >
-<p class="dark-text">Think like a programer </p>
-</div>
+
+                        <img  @click="bookSimilar(key.id)"
+                        :src="url+key.image" class="shadow-sm p-3 bg-body" > 
+  <div class="under-img under-img" >
+  <p class="dark-text">{{ key.name }}</p>
+  </div>
 </swiper-slide
-><swiper-slide
-><img
-src="../assets/img/think2.jpeg" class="shadow-sm p-3 bg-body" />
-<div class="under-img">
-    <p class="dark-text ">  The hidden language of computer</p>
-</div>
-</swiper-slide
-><swiper-slide
-><img
-src="../assets/img/think(3).jpeg" class="shadow-sm p-3 bg-body"  />
-<div class="under-img">
-    <p class="dark-text "> Algorithems design</p>
-</div></swiper-slide
-><swiper-slide
-><img
-src="../assets/img/think(4).jpeg" class="shadow-sm p-3 bg-body" />
-<div class="under-img">
-    <p class="dark-text "> Introduction to algorithems</p>
-</div></swiper-slide
-><swiper-slide
-><img
-src="../assets/img/think(5).jpeg" class="shadow-sm p-3 bg-body" />
-<div class="under-img">
-    <p class="dark-text ">The boring stuff with python </p>
-</div></swiper-slide
 >
 </swiper>
 </div>
@@ -67,7 +43,21 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper';
+import { useRouter } from "vue-router"; 
+import geturl from "../../composables/geturl";
 
+const url = geturl()
+const router = useRouter()
+const emit = defineEmits(['bookSimilar'])
+const props = defineProps({
+       similar:{
+            type:Array
+        }
+    })
+const bookSimilar = (id)=>{
+  emit('bookSimilar',id)
+  router.push('/bookdetails/'+id)
+}
 </script>
 
 <style  scoped>
@@ -90,6 +80,7 @@ import { Navigation } from 'swiper';
   display: block;
   width: 100%;
   height: clamp(10rem,1rem + 25vw,30rem);
+  cursor: pointer;
 }
 
 </style>

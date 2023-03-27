@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <Loading v-if="load" />
+    <div v-else>
         <nav  style="--bs-breadcrumb-divider: '<';
          background-color: #f7f7f7;" aria-label="breadcrumb">
              <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
@@ -17,13 +18,14 @@
                             v-model="bookObj.name"
                             type="text"
                             label="عنوان الكتاب"
-                            error=""
+                            :error="bookErr.name"
+                            required
                         />
                         <BaseInput 
                             v-model="bookObj.edition"
                             type="text"
                             label="اصدار الكتاب"
-                            error=""
+                            :error="bookErr.edition"
                         />
                        <div v-for=" key in counter">
                            <SelectTyping 
@@ -31,24 +33,28 @@
                            label="اسم الكاتب"
                            error=""
                            :list="lisstAuthors"
+                           required
                            />
                            <span class="SelectXicon" v-if="key>1" @click="cancel(key-1)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
                         </div>
                         <div class="mb-2"><a style="cursor: pointer;" @click="newAuthor">إضافة كاتب آخر؟</a></div>
-                        <!-- <component :is="" ></component> -->
                         <SelectTyping 
                            v-model="uploadPublisher"
                            label="اسم الناشر"
-                           error=""
+                           :error="publisherErr.Name"
                            :list="lisstPublishers"
                            />
                         <SelectInput 
                             v-model="bookObj.category_id"
                             label="قسم الكتاب"
-                            error=""
+                            :error="bookErr.category_id"
                             :list="lisstCategory"
+                            required
                         />                      
                         <div class="mb-3">
+                            <div v-if="bookErr.description">
+                             <div class="alert alert-danger" role="alert">{{ bookErr.description }}</div>
+                            </div>
                             <label  class="form-label"> وصف الكتاب</label>
                              <textarea maxlength="253" class="form-control rtl"  
                              placeholder="ادخل وصف الكتاب" v-model="bookObj.description"></textarea>
@@ -56,24 +62,30 @@
                         <FileInput 
                             @filevalue="filevalue"
                             label="صورة للكتاب"
-                            error=""
+                            :error="bookErr.image"
                             underDetailes="صيغة الصورة JPG,PNG"
-                            required />
+                            required
+                             />
                         <FileInput 
                             @filevalue="filevalue"
                             label="ملف الكتاب"
-                            error=""
+                            :error="bookErr.file_path"
                             underDetailes="صيغة الملف pdf"
-                            required />
+                            required
+                             />
                         <FileInput 
                             @filevalue="filevalue"
                             label="ملف الكتاب الصوتي"
-                            error=""
+                            :error="bookErr.book_audio"
                             underDetailes="صيغة الملف MP3"
                              />
                        
                         <div class="d-flex flex-column flex-md-row text-white my-3" >
-                            <button  class="btn btn-lg btn-bd-primary mb-3  br-green " >اضافة <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></button>
+                            <button  class="btn btn-lg btn-bd-primary mb-3  br-green " >
+                                <Loading v-if="loadButton"/>
+                                <span v-else>اضافة</span>
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            </button>
                             <a href="#" class="btn btn-lg mb-3 bk-green text-white mx-4" >الغاء <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>
                        </div>
                     </form>
@@ -92,27 +104,45 @@
 
 <script setup>
 import { ref,onMounted } from 'vue';
-import BaseInput from '../../components/BaseInput.vue';
-import FileInput from '../../components/FileInput.vue';
-import SelectInput from '../../components/SelectInput.vue';
-import AddSwiperSection from '../../components/AddSwiperSection.vue';
-import SelectTyping from '../../components/SelectTyping.vue';
+import BaseInput from '../../components/Form/BaseInput.vue';
+import Loading from '../../components/Loading.vue';
+import FileInput from '../../components/Form/FileInput.vue';
+import SelectInput from '../../components/Form/SelectInput.vue';
+import AddSwiperSection from '../../components/Swiper/AddSwiperSection.vue';
+import SelectTyping from '../../components/Form/SelectTyping.vue';
 import { usePost } from '../../composables/usePost';
 import { usePostMultipart } from '../../composables/usePostMultipart';
 import { useGet } from '../../composables/useGet';
+import { useRouter } from "vue-router";
 
-
+    const router = useRouter()
+    const load = ref(true)
+    const loadButton = ref(false)
     const bookObj = ref({
         name: '',
         Publisher_id: null,
         accepted: 0,
-        category_id: 'قسم الكتاب',
+        category_id: '',
         edition: null,
         description: '',
         file_path: '',
         image: '',
         book_audio: '',
                         })
+    const bookErr = ref({
+        name: null,
+        Publisher_id: null,
+        accepted: 0,
+        category_id: null,
+        edition: null,
+        description: null,
+        file_path: null,
+        image: null,
+        book_audio: null,
+                        })
+    const publisherErr = ref({
+        Name: null
+    })
 
     const filevalue = (file,label)=>{
         if(label == 'ملف الكتاب'){
@@ -125,8 +155,7 @@ import { useGet } from '../../composables/useGet';
             bookObj.value.book_audio = file;
         }
        
-                                    }
-                                              
+                                    }        
         const lisstCategory = ref([])
         const lisstAuthors = ref([]) 
         const lisstPublishers = ref([]) 
@@ -137,13 +166,13 @@ import { useGet } from '../../composables/useGet';
           lisstPublishers.value = awaitdataPublishers.awaitdata.value
           const awaitdataAuthor = await useGet("api/Author")
           lisstAuthors.value = awaitdataAuthor.awaitdata.value
+          load.value = false
         })
         const uploadAuthors = ref(['']) // authors to upload to Authors database table
         const uploadPublisher = ref('') // Publisher to upload to Publisher database table
         const authorIds = ref([])         // returned authorIds from Authors database table
         const bookid = ref(null)         // returned bookid from book database table after submit
         const counter = ref(1)
-
         const newAuthor = ()=>{
             counter.value++
             uploadAuthors.value.push('')
@@ -154,14 +183,33 @@ import { useGet } from '../../composables/useGet';
         }
 
         const submit = async ()=>{
+            loadButton.value = true
+            bookErr.value = {
+                name: null,
+        Publisher_id: null,
+        accepted: 0,
+        category_id: null,
+        edition: null,
+        description: null,
+        file_path: null,
+        image: null,
+        book_audio: null,
+                        }
+       publisherErr.value = {
+        Name: null
+    }
             // first add publisher to publisher table
-            const publisher = await usePost("api/Publisher/store",{Publisher_name:uploadPublisher.value})
+            const publisher = await usePost("api/Publisher/store",{Name:uploadPublisher.value})
+            if(publisher.awaiterror.value)
+            publisherErr.value = publisher.awaiterror.value
+            else
             bookObj.value.Publisher_id = publisher.awaitdata.value
-
+            loadButton.value = publisher.load.value
             // second add author to author table
             for(let i=0;i<uploadAuthors.value.length;++i){
                 const authorId = await usePost("api/Author/store",{Author_name:uploadAuthors.value[i]})
-                 authorIds.value[i] = authorId.awaitdata.value
+                authorIds.value[i] = authorId.awaitdata.value
+                loadButton.value = authorId.load.value
             }
             let formdata1 = new FormData();
             formdata1.append('name', bookObj.value.name);
@@ -173,17 +221,33 @@ import { useGet } from '../../composables/useGet';
             formdata1.append('file_path', bookObj.value.file_path);
             formdata1.append('image', bookObj.value.image);
             formdata1.append('book_audio', bookObj.value.book_audio);
-
-
+            
+            // third add book to book table
             const book = await usePostMultipart("api/BooK/store",formdata1)
-            const bookErr = ref(null)
             bookid.value = book.awaitdata.value
+            if(bookErr.value)
             bookErr.value = book.awaiterror.value
-            console.log(bookErr.value)
+            loadButton.value = book.load.value
+
+            // finally add author-book
+           const book_authorState = ref(null)
+           const book_authorStateerr = ref(null)
+            for(let i=0;i<uploadAuthors.value.length;++i){
+                const messge = await usePost("api/AuthorBook/store",{author_id:authorIds.value[i],
+                                                                     book_id:bookid.value})
+                console.log(messge)
+                book_authorState.value = messge.awaitdata.value
+                book_authorStateerr.value = messge.awaiterror.value
+                loadButton.value = messge.load.value
+            }
+             if(book_authorStateerr.value == null ){
+                loadButton.value = false
+                router.push({
+                    name:'showbooks',
+                    query:{msg:'تمت اضافة الكتاب بنجاح'}
+                })
+            } 
         }
-
-
-
  </script>
 
 

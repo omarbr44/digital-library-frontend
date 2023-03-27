@@ -147,43 +147,19 @@
     :pagination="true"
     class="mySwiper"
   > 
-    <swiper-slide>
-      <img src="@/assets/img/think.jpeg" width="270" height="313" />
+    <swiper-slide v-for="key in data" :key="key.id">
+      <RouterLink 
+         :to="{
+          name: 'bookdetails',
+          params: {id:key.id}
+              }">
+              <img  :src="url+key.image" width="270" height="313" />
+      </RouterLink>
       <div class="text-center " >
-        <h3 class="text-white mt-2"> Think like a programer </h3>
+        <h3 class="text-white mt-2">{{ key.name }}</h3>
         <p class="text-white"> V.Anton Sparaul</p>
       </div>
-      </swiper-slide
-    ><swiper-slide
-      ><img
-      src="@/assets/img/think2.jpeg" width="270" height="313"/>
-      <div class="text-center">
-        <h3 class="text-white mt-2"> The hidden language of computer</h3>
-        <p class="text-white"> Charles Petzold</p>
-      </div>
-      </swiper-slide
-    ><swiper-slide
-      ><img
-      src="@/assets/img/think(3).jpeg" width="270" height="313" />
-      <div class="text-center">
-        <h3 class="text-white"> Algorithems design</h3>
-        <p class="text-white"> Joe Kleinberg</p>
-      </div></swiper-slide
-    ><swiper-slide
-      ><img
-      src="@/assets/img/think(4).jpeg" width="270" height="313"/>
-      <div class="text-center">
-        <h3 class="text-white"> Introduction to algorithems</h3>
-        <p class="text-white"> Thomas H.Coman</p>
-      </div></swiper-slide
-    ><swiper-slide
-      ><img
-      src="@/assets/img/think(5).jpeg" width="270" height="313" />
-      <div class="text-center">
-        <h3 class="text-white"> The boring stuff with python </h3>
-        <p class="text-white">Ai Sweigart </p>
-      </div></swiper-slide
-    >
+      </swiper-slide>
   </swiper>
     </div>
    </section>
@@ -191,19 +167,22 @@
 
 <script setup>
 import { useGet } from "../composables/useGet";
+import { RouterLink } from 'vue-router';
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import Loading from "../components/Loading.vue";
 import { ref,watchEffect } from "vue";
+import geturl from "../composables/geturl";
 
+const url = geturl()
 const data = ref(null)
 const error = ref(null)
 
 watchEffect(async ()=>{
-        const { awaitdata,awaiterror } = await useGet() 
-        data.value = awaitdata.value.data.data[0]
+        const { awaitdata,awaiterror } = await useGet('api/BooK') 
+        data.value = awaitdata.value.data
         error.value = awaiterror
     })
 
@@ -248,7 +227,9 @@ watchEffect(async ()=>{
 .swiper-slide img {
   display: block;
   width: 100%;
-}
+  cursor: pointer;
+  }
+
 .slider{
   padding: 80px 0;
     background: url(src/assets/img/booksnew.jpg) no-repeat;

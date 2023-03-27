@@ -13,7 +13,7 @@
                            class="mySwiper my-3"
                        >
                            <swiper-slide class="swipee">
-                               <img src="../assets/img/library.jpg" class=""  alt="book" style="position: absolute;">
+                               <img src="../../assets/img/library.jpg" class=""  alt="book" style="position: absolute;">
                                <div class="under-swipe ">
                                <h2 class="my-1 text-white">إضافة كتاب</h2>
                                <p class="my-3 text-white text-center"> أكمل تعبئة القوالب لإضافة الكتاب الى الموقع بعد التأكد من قبل الادمن</p>
@@ -21,7 +21,7 @@
                                </div>
                            </swiper-slide>
                            <swiper-slide class="swipee">
-                               <img src="../assets/img/booksver.jpg" class=""  alt="book" style="position: absolute;">
+                               <img src="../../assets/img/booksver.jpg" class=""  alt="book" style="position: absolute;">
                                <div class="under-swipe ">
                                <h2 class="my-1 text-white">إضافة كتاب</h2>
                                <p class="my-3 text-white text-center"> أكمل تعبئة القوالب لإضافة الكتاب الى الموقع بعد التأكد من قبل الادمن</p>
@@ -29,7 +29,7 @@
                                </div>
                            </swiper-slide>
                            <swiper-slide class="swipee">
-                               <img src="../assets/img/program.jpg" class=""  alt="book" style="position: absolute;">
+                               <img src="../../assets/img/program.jpg" class=""  alt="book" style="position: absolute;">
                                <div class="under-swipe ">
                                <h2 class="my-1 text-white">إضافة كتاب</h2>
                                <p class="my-3 text-white text-center"> أكمل تعبئة القوالب لإضافة الكتاب الى الموقع بعد التأكد من قبل الادمن</p>

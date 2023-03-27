@@ -10,7 +10,7 @@
                                 :value="modelValue"
                                 @input="$emit('update:modelValue', $event.target.value)"
                                 v-bind="$attrs"
-                                required
+                                
                              >
                         </div>
 </template>

@@ -4,6 +4,7 @@ import geturl from "./geturl";
 
 const awaitdata = ref(null)
 const awaiterror = ref(null)
+const load = ref(true)
 const url = geturl()
 
    export async function usePostMultipart(api,body){
@@ -16,9 +17,13 @@ const url = geturl()
         } 
       }).then((res)=>{
         awaitdata.value= res.data.data
+        load.value = false
+        console.log(awaitdata.value)
       }).catch((err)=>{
         awaiterror.value= err.response.data.data
+        load.value = false
+        console.log(awaitdata.value)
       })
-      return { awaitdata,awaiterror } 
+      return { awaitdata,awaiterror,load } 
       
                                  } 

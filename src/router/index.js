@@ -17,6 +17,7 @@ const router = createRouter({
      
       component: () => import('../views/Home.vue')
     } ,
+    // books paths
     {
       path: '/showbooks',
       name: 'showbooks',
@@ -33,6 +34,23 @@ const router = createRouter({
       path: '/addbook',
       name: 'addbook',
       component: () => import('../views/Books/AddBook.vue')
+    } ,
+    // programs paths
+    {
+      path: '/showprograms',
+      name: 'showprograms',
+      component: () => import('../views/Programs/ShowPrograms.vue')
+    } ,
+    {
+      path: '/addprogram',
+      name: 'addprogram',
+      component: () => import('../views/Programs/AddProgram.vue')
+    } ,
+    {
+      path: '/programdetails/:id',
+      name: 'programdetails',
+      props: true,
+      component: () => import('../views/Programs/ProgramDetails.vue')
     } ,
   ]
   

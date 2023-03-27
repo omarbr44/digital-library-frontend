@@ -13,32 +13,62 @@
                     <div class=" col-lg-2"  >  
                        
                     </div>
-                    <div class="col-12 col-lg-6 rtl">  
-                    <div class="dropdown dropend">
-                            <img src="../assets/img/edit.png" alt="filter" class="mx-3 dropdown-toggle" style="width:2rem" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" role="button">
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
-                            
-                            <li><a class="dropdown-item text-end" @click="{$emit('filter',1);filterValue='الكتب'}">تصفح الكتب</a></li>
-                            <li><a class="dropdown-item text-end">تصفح الدورات</a></li>
-                            <li><a class="dropdown-item text-end">تصفح البرامج</a></li>
-                            <li><a class="dropdown-item text-end">تصفح الكتب الصوتية</a></li>
-                            <li><a class="dropdown-item text-end">تصفح المشاريع</a></li>
-                            <li><a class="dropdown-item text-end">تصفح المحاضرات</a></li>
-                        </ul>
-                    </div>
-
-                        <button v-if="filterValue" type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">{{filterValue}}</button>    
-                    </div>
+                    <div class="col-12 col-lg-6 rtl ">  
+                            <img src="../assets/img/edit.png" alt="filter" @click="displayFilters=!displayFilters" class="mx-3" style="width:2rem"  role="button">
+<!--                         <button v-if="filterValue" type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">{{filterValue}}</button>    
+ -->                    </div>
                  </div>
+                <div class="row my-5" :class="{hide:!displayFilters}" >
+                    <div class="col-6 rtl">
+                        <SelectInput
+                            v-model="filterValue"
+                            label="الصنف"
+                            :list="categories"
+                            
+                        />
+                    </div>
+                    <div v-if="router.currentRoute.value.name == 'showbooks'" class="col-6 rtl">
+                        <SelectInput
+                            v-model="authorValue"
+                            label="الكاتب"
+                            :list="authors"
+                        />
+                    </div>
+                    <button class="btn bk-green text-white w-auto" @click="filterValue='';authorValue=''">الغاء</button>
+                </div>
              </div>
          </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,onMounted,watchEffect } from 'vue';
+import { useGet } from '../composables/useGet';
+import { useRouter } from 'vue-router';
+import SelectInput from './Form/SelectInput.vue';
 
+    const emit = defineEmits(['filter'])
+    const router = useRouter()
+    const categories = ref(null)
+    const authors = ref(null)
     const searchValue = ref('')
     const filterValue = ref('')
+    const authorValue = ref('')
+    const displayFilters = ref(false)
+    onMounted(async()=>{
+        const { awaitdata } = await useGet('api/Category') 
+        categories.value = awaitdata.value
+        if( router.currentRoute.value.name == 'showbooks'){
+           const { awaitdata } = await useGet('api/Author') 
+           authors.value = awaitdata.value
+       }
+    })
+    watchEffect(()=>{
+        if( router.currentRoute.value.name == 'showbooks'){
+            emit('filter',filterValue.value,authorValue.value)
+        }else
+        emit('filter',filterValue.value)
+
+    })
     
 </script>
 
@@ -62,9 +92,7 @@ import { ref } from 'vue';
     background-size: 1.5rem;
     background-repeat: no-repeat;
 }
-
-
-.dropdown-toggle::after{
+.hide{
     display: none;
 }
 </style>

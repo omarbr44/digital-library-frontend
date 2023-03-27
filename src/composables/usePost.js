@@ -4,6 +4,7 @@ import geturl from "./geturl";
 
 const awaitdata = ref(null)
 const awaiterror = ref(null)
+const load = ref(true)
 const url = geturl()
 
    export async function usePost(api,body){
@@ -17,9 +18,11 @@ const url = geturl()
         } 
       }).then((res)=>{
         awaitdata.value= res.data.data
+        load.value = false
       }).catch((err)=>{
-        awaiterror.value= err.data.data
+        awaiterror.value= err.response.data.data
+        load.value = false
       })
-      return { awaitdata,awaiterror } 
+      return { awaitdata,awaiterror,load } 
       
                                  } 

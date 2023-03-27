@@ -6,16 +6,16 @@
                          <a class="page-link">Previous</a>
                      </li>
                      <li v-if="previous" @click="previousMethod" class="page-item ">
-                         <a class="page-link">Previous</a>
+                         <a class="page-link" href="#">Previous</a>
                      </li>
                      <li  class="page-item" v-if="previous" @click="previousMethod"><a class="page-link" href="#">{{ previous }}</a></li>
-                     <li  class="page-item" ><a class="page-link" href="#">{{ currentPage }}</a></li>
+                     <li  class="page-item shadow-sm" ><a class="page-link" href="#">{{ currentPage }}</a></li>
                      <li  class="page-item" v-if="next <= props.pages" @click="nextMethod"><a class="page-link" href="#">{{ next }}</a></li>
-                     <li v-if="currentPage!=next" @click="nextMethod" class="page-item">
+                     <li v-if="currentPage!=props.pages" @click="nextMethod" class="page-item">
                          <a  class="page-link" href="#">Next</a>
                      </li>
-                     <li v-if="currentPage==next" class="page-item disabled">
-                         <a class="page-link" href="#">Next</a>
+                     <li v-if="currentPage==props.pages" class="page-item disabled">
+                         <a class="page-link">Next</a>
                      </li>
                  </ul>
         </nav>

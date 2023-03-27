@@ -13,18 +13,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
+import { ref,watchEffect } from 'vue';
+const props = defineProps({
+    desc:{
+        type:String,
+        default:''
+    }
+})
 // splitting the Details for shown and hidden
-const BookDetails = ref('كتاب البرمجة الاشهر على مدى واسع في اخر 10 سنين ويحتوي هذا الكتاب غلى اساسيات لغات البرمجة والتي تمكن المبتدئ من التعرف عل لغات البرمجة.')
+const BookDetails = ref(null)
 const BookDetailsShown = ref(null)
 const BookDetailshidden = ref(null)
-
-    BookDetails.value = BookDetails.value.split(" ");
+watchEffect(()=>{
+    BookDetails.value = props.desc
+    if(BookDetails.value){
+        BookDetails.value = BookDetails.value.split(" ");
     BookDetailsShown.value = BookDetails.value.slice(0,7)
     BookDetailshidden.value = BookDetails.value.slice(7,BookDetails.value.length)
     BookDetailsShown.value = BookDetailsShown.value.join(" ")
     BookDetailshidden.value = BookDetailshidden.value.join(" ")
+    }
+})
+   
 
 // changing the content of the button and classing it 
 const BookDetailsButton = ref('عرض اكثر v')

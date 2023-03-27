@@ -3,10 +3,10 @@
         <div class="alert alert-danger" role="alert">{{ error }}</div>
     </div>
     <label class="form-label">{{ label }}</label>
-    <select class="form-select mb-3" aria-label="Default select example" required :value="modelValue"
+    <select class="form-select mb-3" aria-label="Default select example"  :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)" v-bind="$attrs">
-        <option selected disabled>{{ label }}</option>
-        <option v-for="key in list" :value="key.id" :key="key.id">{{ key.name }}</option>
+        <option  disabled>{{ label }}</option>
+        <option v-for="key in list" :value="key.id" :key="key.id">{{ key.name || key.Name }}</option>
     </select>
 </template>
 
@@ -29,6 +29,7 @@ const props = defineProps({
         default: []
     }
 })
+
 
 
 </script>
