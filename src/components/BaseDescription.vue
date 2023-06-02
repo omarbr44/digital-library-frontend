@@ -1,5 +1,5 @@
 <template>
-                         <span >وصف الكتاب:
+                         <span >وصف {{ props.what }}:
                             {{ BookDetailsShown }}
                             <p ref="p_element" class="collapse m-0" id="collapseExample">
                                 {{ BookDetailshidden }}
@@ -16,6 +16,10 @@
 import { ref,watchEffect } from 'vue';
 const props = defineProps({
     desc:{
+        type:String,
+        default:''
+    },
+    what:{
         type:String,
         default:''
     }

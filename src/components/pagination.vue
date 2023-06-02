@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!props.pages">
         <nav aria-label="Page navigation example">
                  <ul  class="pagination justify-content-center">
                      <li v-if="!previous" class="page-item disabled">
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref,watchEffect } from 'vue';
+import { ref,watchEffect,watch } from 'vue';
     const emit = defineEmits((['currentPage']))
     const props = defineProps({
         pages:{
@@ -36,11 +36,21 @@ import { ref,watchEffect } from 'vue';
     const currentPage = ref(0)
     const previous = ref(0)
     const next = ref(0)
-    watchEffect(async ()=>{
-        currentPage.value = props.currentPage
-        previous.value = props.currentPage-1
-        next.value = props.currentPage+1
+    const pagess = ref(0)
+
+            currentPage.value = props.currentPage
+            previous.value = props.currentPage-1
+            next.value = props.currentPage+1
+            watchEffect(()=>{
+                pagess.value = props.pages   // because watch works only with ref 
     })
+
+        watch([pagess, () => pagess.value], ([newPages, hjj]) => { //  we only refresh the paginaton if the total pages changed
+            previous.value = 0
+            currentPage.value = 1
+            next.value = 2
+    }) 
+
     const previousMethod = ()=>{
         emit('currentPage',previous.value)
         previous.value = previous.value-1

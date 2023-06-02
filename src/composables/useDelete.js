@@ -1,27 +1,27 @@
 import { ref } from "vue";
 import axios from "axios";
+import geturl from "./geturl";
+import { useUserStore } from '@/stores/user'
 
+const userStore= useUserStore()
 const awaitdata = ref(null)
 const awaiterror = ref(null)
+const url = geturl()
 
-
-   export async function useGetDetailes(){
-  /*  await axios({
-        url:"https://api.api-ninjas.com/v1/animals?name=fox",
-        method: 'get',
+   export async function useDelete(api){
+   await axios({
+        url:url+api,
+        method: 'delete',
         headers:{
           //'content-type': 'multipart/form-data'
           'content-type': 'application/json',
-          'X-Api-Key': 'zbPvmgHkTv7t7roYr+4P/w==9Xxm6QAAmkRVKYCc'
+          "Authorization": "Bearer "+userStore.token
         }
       }).then((res)=>{
-        awaitdata.value= res
+        awaitdata.value= res.data
       }).catch((err)=>{
-        awaiterror.value= err
-      }) */
-      awaitdata.value = 'pdjksdk'
-      awaiterror.value = 'pdjksdk'
-     
+        awaiterror.value= err.data
+      })
       return { awaitdata,awaiterror } 
       
                                  } 

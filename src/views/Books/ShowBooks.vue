@@ -1,18 +1,22 @@
 <template>
     <div>
-        <div v-if="route.query.msg" class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
+        <div v-if="msgQuery" class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
   <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
   <div>
-    {{ route.query.msg }}
+    {{ msgQuery }}
   </div>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-        <Hero />
+        <Hero :obj="{
+            el1 : 'تصفح الكتب ',
+            el2 : 'تصفح الكتب الموجودة مع خاصية البحث وايضا الفلترة بالفئات مع امكانية تحميل الكتاب',
+            el3 : 'addbook',
+            el4 : 'اضافة كتاب'
+        }" />
         <nav  style="--bs-breadcrumb-divider: '<';
          background-color: #f7f7f7;" aria-label="breadcrumb">
              <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
                 <li class="breadcrumb-item active">تصفح الكتب</li>
-                <li class="breadcrumb-item " aria-current="page"><a href="#">الرئيسية</a></li>
+                <li class="breadcrumb-item " aria-current="page"><RouterLink :to="{name:'Home'}">الرئيسية</RouterLink></li>
              </ol>
         </nav> 
          <Search_filter @search="searchValueMethod" @filter="filterValueMethod"/>
@@ -21,7 +25,7 @@
                 <div class="row my-5" >
                    <AsyncShowBooks @paginationEmit="pagination" :filterValue="filterValue" :authorValue="authorValue"
                                     :searchValue="searchValue" 
-                                    :currentPageToGet="currentPageToGet" />
+                                    :currentPageToGet="currentPageToGet" :refreshPaginat="refreshPaginat" />
                 </div>
                 <Pagination v-if="pages" :pages="pages" :currentPage="currentPage" @currentPage="currentPageMeth"  />
              </div>
@@ -32,26 +36,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import AsyncShowBooks from '../../components/AsyncShowBooks.vue';
+import { ref,onMounted } from 'vue';
+import AsyncShowBooks from '../../components/Async/AsyncShowBooks.vue';
 import Hero from '../../components/Hero.vue';
 import Pagination from '../../components/pagination.vue';
 import Search_filter from '../../components/Search_filter.vue';
-import { useRoute } from 'vue-router';
+import { useRoute,RouterLink } from 'vue-router';
 
     const route = useRoute()
+    const msgQuery = ref(null)
     const searchValue = ref('')
     const filterValue = ref('')
     const authorValue = ref('')
     const pages = ref(0)
     const currentPage = ref(1)
     const currentPageToGet = ref(1)
+    const refreshPaginat = ref(true)
+    onMounted(()=>{
+        if(route.query.msg){
+            msgQuery.value = route.query.msg
+            setTimeout(()=>{
+                msgQuery.value = null
+                history.replaceState({},'',location.href.split('?')[0])
+            },5000)
+        }
+    })
     const searchValueMethod = (n)=>{
         searchValue.value = n
+        refreshPaginat.value = true
     }
     const filterValueMethod = (category,author)=>{
         filterValue.value = category
         authorValue.value = author
+        refreshPaginat.value = true
     }
     const pagination = (page)=>{
         pages.value = page
@@ -59,6 +76,7 @@ import { useRoute } from 'vue-router';
     }
     const currentPageMeth = (currentPages)=>{
         currentPageToGet.value = currentPages
+        refreshPaginat.value = false
     }
 
 

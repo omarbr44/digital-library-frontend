@@ -22,13 +22,15 @@
       },
     }"
 >
-<swiper-slide v-for="key in props.similar[0]" :key="key.id"
+<swiper-slide v-for="key in props.similar" :key="key.id"
 >
 
-                        <img  @click="bookSimilar(key.id)"
+                        <img v-if="route.name != 'lecturedetails'" @click="similar(key.id|| key.number)"
                         :src="url+key.image" class="shadow-sm p-3 bg-body" > 
+                        <h3 style=" cursor: pointer;" v-else class=" p-3 "  @click="similar(key.id|| key.number)">{{ key.name }}</h3>
   <div class="under-img under-img" >
-  <p class="dark-text">{{ key.name }}</p>
+  <p v-if="route.name != 'lecturedetails'" class="dark-text">{{ key.name || key.Name || key.title }}</p>
+  <p v-else class="dark-text">{{ key.number}}</p>
   </div>
 </swiper-slide
 >
@@ -43,21 +45,29 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper';
-import { useRouter } from "vue-router"; 
+import { useRoute } from "vue-router"; 
 import geturl from "../../composables/geturl";
+import { onBeforeMount } from "vue";
 
 const url = geturl()
-const router = useRouter()
-const emit = defineEmits(['bookSimilar'])
+const route = useRoute()
+const emit = defineEmits(['similar'])
 const props = defineProps({
        similar:{
             type:Array
-        }
+        },
+
     })
-const bookSimilar = (id)=>{
-  emit('bookSimilar',id)
-  router.push('/bookdetails/'+id)
+const similar = (id)=>{
+  emit('similar',id)
 }
+onBeforeMount(()=>{
+   window.addEventListener('popstate',backBut)       // to trigger page when clicking arrows
+ })
+const backBut = ()=>{
+   emit('similar',route.params.id)
+}
+
 </script>
 
 <style  scoped>
@@ -81,6 +91,7 @@ const bookSimilar = (id)=>{
   width: 100%;
   height: clamp(10rem,1rem + 25vw,30rem);
   cursor: pointer;
+  
 }
 
 </style>

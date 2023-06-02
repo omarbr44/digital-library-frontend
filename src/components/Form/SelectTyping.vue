@@ -4,13 +4,16 @@
             <div class="alert alert-danger" role="alert">{{ error }}</div>
         </div>
         <label class="form-label">{{ label }}</label>
+        <div :class="{redstar :req}">
         <input class="form-control rtl" :placeholder="label" :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
             v-bind="$attrs" 
             @keyup="select">
+            </div>
     </div>
     <div v-if="newlisst[0]" class="selectOptions" @click="select">
-        <p  @click="$emit('update:modelValue', key.Name)" v-for="key in newlisst" :key="key.id">{{ key.Name }}</p>
+<!--       <p  @click="$emit('update:modelValue', key.name)" v-for="key in newlisst" :key="key.id">{{ key.name }}</p>
+ -->      <p  @click.stop="textClick(key.name)" v-for="key in newlisst" :key="key.id">{{ key.name }}</p>
     </div>
 </template>
 
@@ -29,19 +32,28 @@ const props = defineProps({
         type: [String, Number],
         default: ""
     },
+    req: {
+        type: [Number,String],
+        default: 0
+    },
     list: {
         type: Array,
         default: []
     }
 })
 const newlisst = ref([])
+const emit = defineEmits((['update:modelValue']))
 
 // to show names as you write
 const select = () => {
     newlisst.value = props.list.filter((e) => {
-        if (e.Name.indexOf(props.modelValue) !== -1 && props.modelValue != '') //if the letterd in the input matches the name
+        if (e.name.indexOf(props.modelValue) != -1 && props.modelValue != '') //if the letterd in the input matches the name
             return true
     })
+}
+const textClick = (name) => {
+    emit('update:modelValue', name)
+    newlisst.value = []
 }
 
 

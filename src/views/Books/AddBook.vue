@@ -5,7 +5,7 @@
          background-color: #f7f7f7;" aria-label="breadcrumb">
              <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
                 <li class="breadcrumb-item active">اضافة كتاب</li>
-                <li class="breadcrumb-item " aria-current="page"><a href="#">الرئيسية</a></li>
+                <li class="breadcrumb-item " aria-current="page"><RouterLink :to="{name:'Home'}">الرئيسية</RouterLink></li>
              </ol>
         </nav> 
         <div class=" px-4 px-md-3" >
@@ -20,6 +20,7 @@
                             label="عنوان الكتاب"
                             :error="bookErr.name"
                             required
+                            req=1
                         />
                         <BaseInput 
                             v-model="bookObj.edition"
@@ -34,6 +35,7 @@
                            error=""
                            :list="lisstAuthors"
                            required
+                           req=1
                            />
                            <span class="SelectXicon" v-if="key>1" @click="cancel(key-1)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
                         </div>
@@ -50,6 +52,7 @@
                             :error="bookErr.category_id"
                             :list="lisstCategory"
                             required
+                            req=1
                         />                      
                         <div class="mb-3">
                             <div v-if="bookErr.description">
@@ -65,6 +68,7 @@
                             :error="bookErr.image"
                             underDetailes="صيغة الصورة JPG,PNG"
                             required
+                            req=1
                              />
                         <FileInput 
                             @filevalue="filevalue"
@@ -72,6 +76,7 @@
                             :error="bookErr.file_path"
                             underDetailes="صيغة الملف pdf"
                             required
+                            req=1
                              />
                         <FileInput 
                             @filevalue="filevalue"
@@ -83,11 +88,11 @@
                         <div class="d-flex flex-column flex-md-row text-white my-3" >
                             <button  class="btn btn-lg btn-bd-primary mb-3  br-green " >
                                 <Loading v-if="loadButton"/>
-                                <span v-else>اضافة</span>
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <span v-if="!loadButton">اضافة</span>
+                                 <svg v-if="!loadButton" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                             </button>
-                            <a href="#" class="btn btn-lg mb-3 bk-green text-white mx-4" >الغاء <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>
-                       </div>
+<!--                             <a href="#" class="btn btn-lg mb-3 bk-green text-white mx-4" >الغاء <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>
+ -->                       </div>
                     </form>
                     </div>
                     <div class="col-12 col-lg-4 flex-center px-0 rounded-2" > 
@@ -105,22 +110,22 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import BaseInput from '../../components/Form/BaseInput.vue';
-import Loading from '../../components/Loading.vue';
-import FileInput from '../../components/Form/FileInput.vue';
-import SelectInput from '../../components/Form/SelectInput.vue';
+import Loading from '../../components/BaseLoading.vue';
+import FileInput from '../../components/Form/BaseFileInput.vue';
+import SelectInput from '../../components/Form/BaseSelectInput.vue';
 import AddSwiperSection from '../../components/Swiper/AddSwiperSection.vue';
 import SelectTyping from '../../components/Form/SelectTyping.vue';
 import { usePost } from '../../composables/usePost';
 import { usePostMultipart } from '../../composables/usePostMultipart';
 import { useGet } from '../../composables/useGet';
-import { useRouter } from "vue-router";
+import { useRouter,RouterLink } from "vue-router";
 
     const router = useRouter()
     const load = ref(true)
     const loadButton = ref(false)
     const bookObj = ref({
         name: '',
-        Publisher_id: null,
+        Publisher_id: 0,
         accepted: 0,
         category_id: '',
         edition: null,
@@ -199,12 +204,15 @@ import { useRouter } from "vue-router";
         Name: null
     }
             // first add publisher to publisher table
-            const publisher = await usePost("api/Publisher/store",{Name:uploadPublisher.value})
-            if(publisher.awaiterror.value)
-            publisherErr.value = publisher.awaiterror.value
-            else
-            bookObj.value.Publisher_id = publisher.awaitdata.value
-            loadButton.value = publisher.load.value
+            if(uploadPublisher.value){
+                const {awaitdata,awaiterror,load} = await usePost("api/Publisher/store",{Name:uploadPublisher.value})
+                if(!awaitdata.value){
+                    publisherErr.value = awaiterror.value
+                }
+                else
+                bookObj.value.Publisher_id = awaitdata.value
+                loadButton.value = load.value
+            }
             // second add author to author table
             for(let i=0;i<uploadAuthors.value.length;++i){
                 const authorId = await usePost("api/Author/store",{Author_name:uploadAuthors.value[i]})
@@ -225,7 +233,7 @@ import { useRouter } from "vue-router";
             // third add book to book table
             const book = await usePostMultipart("api/BooK/store",formdata1)
             bookid.value = book.awaitdata.value
-            if(bookErr.value)
+            if(book.awaiterror.value)
             bookErr.value = book.awaiterror.value
             loadButton.value = book.load.value
 
@@ -235,16 +243,15 @@ import { useRouter } from "vue-router";
             for(let i=0;i<uploadAuthors.value.length;++i){
                 const messge = await usePost("api/AuthorBook/store",{author_id:authorIds.value[i],
                                                                      book_id:bookid.value})
-                console.log(messge)
                 book_authorState.value = messge.awaitdata.value
                 book_authorStateerr.value = messge.awaiterror.value
                 loadButton.value = messge.load.value
             }
-             if(book_authorStateerr.value == null ){
+             if(book_authorState.value.id != null ){
                 loadButton.value = false
                 router.push({
                     name:'showbooks',
-                    query:{msg:'تمت اضافة الكتاب بنجاح'}
+                    query:{msg:' تم ارسال الكتاب بنجاح، بإنتظار موافقة الادمن'}
                 })
             } 
         }
@@ -255,7 +262,7 @@ import { useRouter } from "vue-router";
 .SelectXicon{
     position: absolute;
     top: 37px;
-    left: 8px;
+    left: 23px;
     cursor: pointer;
 }
 @media only screen and (max-width: 992px) {

@@ -6,6 +6,10 @@ const awaitdata = ref(null)
 const awaiterror = ref(null)
 const load = ref(true)
 const url = geturl()
+import { useUserStore } from '@/stores/user'
+
+const userStore= useUserStore()
+
 
    export async function usePostMultipart(api,body){
    await axios({
@@ -14,15 +18,16 @@ const url = geturl()
         data: body,
         headers:{
           'content-type': 'multipart/form-data',
+          "Authorization": "Bearer "+userStore.token
         } 
       }).then((res)=>{
-        awaitdata.value= res.data.data
+        awaitdata.value= res.data
+        awaiterror.value= null
         load.value = false
-        console.log(awaitdata.value)
       }).catch((err)=>{
-        awaiterror.value= err.response.data.data
+        awaiterror.value= err.response.data
+        awaitdata.value= null
         load.value = false
-        console.log(awaitdata.value)
       })
       return { awaitdata,awaiterror,load } 
       

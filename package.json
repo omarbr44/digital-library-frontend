@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host --port 8000",
+    "dev": "vite --host --port 8002",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -13,6 +13,7 @@
     "bootstrap": "^5.3.0-alpha1",
     "jquery": "^3.6.4",
     "pinia": "^2.0.28",
+    "pinia-plugin-persistedstate": "^3.1.0",
     "swiper": "^9.0.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

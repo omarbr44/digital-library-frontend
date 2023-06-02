@@ -1,37 +1,50 @@
 <template>
     
-        <div class="col-12 col-lg-4 text-center rtl line-under"  >  
+        <div class="col-12 col-lg-4 text-center rtl line-under"  > 
+
                     <RouterLink 
                     :to="{
-                        name: 'bookdetails',
-                        params: {id:data.id}
+                        name: Details,
+                        params: {id:data.id || data.Project_number },
+                        query:{msgg:msgg}
                          }">
                         <div class="goo">
-                            <img :src="url+data.image" class="shadow-sm p-3 bg-body"  alt="book"  style="width: 70%;">
+                            <img v-if="data.image" :src="url+data.image" class="shadow-sm p-3 bg-body"  alt="book"  style="width: 70%;">
+                            <h3 v-else class=" p-3 "  >{{ data.name }}</h3>
                         </div>
                     </RouterLink>
                         <div class="under-card my-3">
-                            <p class="m-0">{{ data.name }}</p>
-                            <button  type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">برمجة</button>    
+                            <p  style="text-align: right;
+                                 width: 75%; " class="m-0">{{data.teacher_name || data.name || data.title }}</p>
+                            <button v-if="useRoute().name != 'showads'"  type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">{{ data.semester || data.category_name || data.Department_name || data.number }}</button> 
                         </div>
+                        <p class="m-0" v-if="data.Number_of_Videos">{{ data.Number_of_Videos }} {{ data.Number_of_Videos == 1 ? 'مقطع' : 'مقاطع'}}</p>   
                         <hr>
          </div>
    
 </template>
 
 <script setup>
-//import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
+import { RouterLink,useRoute } from 'vue-router';
 import geturl from '../composables/geturl';
-
 defineProps({
     data: {
         type: Object,
         default:null
+          },
+          Details: {
+        type: String,
+        default:''
           }
 })
-
 const url = geturl()
+const msgg = ref('')
+
+if(useRoute().query.msgg){
+    msgg.value = 'accept'
+}
+
 </script>
 <style  scoped>
 .under-card{
@@ -48,14 +61,13 @@ hr{
     margin-right: auto;
     width: 30%;
     color: var(--bs-seccolor);
-
 }
 img{
     cursor: pointer;
     transition: transform ease-in-out 0.4s;
-    height: 19rem;
+    height: 18rem;
 }
 img:hover{
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 </style>
