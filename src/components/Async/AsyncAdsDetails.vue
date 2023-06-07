@@ -3,7 +3,7 @@
     <div v-else class="row my-5 justify-content-center" >
                     <div class="sec-order col-12 col-lg-7 rtl gy-5"> 
                         <div class="d-flex flex-column flex-md-row text-white my-3">
-                            <a @click="deletee" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف الاعلان </a>
+                            <a @click="$emit('delete')" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف الاعلان </a>
                         </div>  
                         <h2 class="my-3">{{ data.name || data.title }}</h2>
                         <div class="my-3">
@@ -21,7 +21,6 @@
 import { watchEffect,ref } from "vue";
 import Description from "../BaseDescription.vue";
 import { useGet } from '../../composables/useGet';
-import { useDelete } from '../../composables/useDelete';
 import Loading from "../BaseLoading.vue";
 import geturl from '../../composables/geturl';
 import { useRouter } from "vue-router";
@@ -42,15 +41,6 @@ const router = useRouter()
             window.scrollTo(0,0)
             error.value = awaiterror.value
         })
-
-        const deletee = async ()=>{
-                const { awaitdata,awaiterror } = await useDelete('api/Advertisement/destroy/'+data.value.id)
-                if(awaitdata.value)
-                {
-                    router.push({name:'showads'})
-                }
-        }
-        
     </script>
 
 <style scoped>

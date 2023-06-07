@@ -6,7 +6,7 @@
     {{ msgQuery }}
   </div>
 </div>
-                <div class="flex mt-4" style="justify-content: space-evenly; padding: 1rem;margin-top: 6rem !important;">
+                <div class="flex mt-5" style="justify-content: space-evenly; padding: 1rem;margin-top: 6rem !important;">
                     <div class="flex" style="width: 85%; align-items: center;">
                     <button class="btn  bk-green text-white" @click="searchUsers">ابحث</button>
                     <div class="col-9 col-lg-3"  >  
@@ -15,11 +15,13 @@
                         </div>
                     </div>
                 </div>
-                        <h1 class="h1"> حسابات</h1>
+                        <h1 class="h1"> الحسابات</h1>
                 </div>
         <div class="container p-3">
         <div class="row " >
-            <div class="col-12 gy-3 rtl ">  
+            <Loading v-if="!users" />
+            <div v-else class="col-12 gy-3 rtl "> 
+
                 <div class="centercol">
                     <p >الاسم</p>
                     <p>اسم المستخدم</p>
@@ -52,6 +54,7 @@ import { ref,onMounted } from "vue";
 import { useGet } from "../composables/useGet";
 import { useUpdate } from "../composables/useUpdate";
 import { useRouter,useRoute } from "vue-router";
+import Loading from "../components/BaseLoading.vue";
 
 const router = useRouter()
 const users = ref(null)

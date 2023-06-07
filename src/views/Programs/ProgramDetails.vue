@@ -1,7 +1,8 @@
 <template>
     <div>
+        <Deletee :url="'api/Program/destroy/'+id" :showDelete="showDelete" go="showprograms" @cancel="showDelete = false"/>
     <nav  style="--bs-breadcrumb-divider: '<';
-        background-color: #f7f7f7;" aria-label="breadcrumb">
+        background-color: #f7f7f7; margin-top: 7rem" aria-label="breadcrumb">
          <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
             <li class="breadcrumb-item active">تفاصيل البرنامج</li>
             <li class="breadcrumb-item "><RouterLink :to="{name:'showprograms'}">تصفح البرامج</RouterLink> </li>
@@ -9,7 +10,7 @@
          </ol>
     </nav>
         <div class="container px-4 px-md-3" >
-                <AsyncProgramDetails :id="id" @similarPrograms="similarPrograms" />
+                <AsyncProgramDetails :id="id" @similarPrograms="similarPrograms" @delete="deletee"/>
         </div>
         <h1 v-if="similarExist" class="h1 text-end m-4  mx-5 display-4 "> برامج مشابهة</h1>
             <SwiperSection  :similar="similar" @Similar="prograSimilarChose" />
@@ -20,6 +21,7 @@
 import SwiperSection from "../../components/Swiper/SwiperSection.vue";
 import { useRoute,RouterLink,useRouter } from "vue-router";
 import AsyncProgramDetails from "../../components/Async/AsyncProgramDetails.vue";
+import Deletee from "../../components/BaseDelete.vue";
 import { ref,watch } from "vue";
 
  const route = useRoute()
@@ -28,6 +30,7 @@ import { ref,watch } from "vue";
  const id = ref(route.params.id) 
  const similar = ref(null)
  const similarExist = ref(false)
+ const showDelete = ref(false)
 
  const similarPrograms = (similarProgram)=>{
     similar.value = similarProgram
@@ -39,6 +42,9 @@ import { ref,watch } from "vue";
  watch([id, () => id.value], ([idd]) => { 
    router.push('/ProgramDetails/'+idd)
     }) 
-
+    const deletee = ()=>{
+    showDelete.value = true
+    window.scrollTo(0,260)
+}
 </script>
 

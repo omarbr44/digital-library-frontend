@@ -36,6 +36,7 @@ onMounted(()=>{
     }
 })
 watchEffect(async ()=>{
+    data.value = null
     if(props.refreshPaginat === false ){
          pagetoget.value = props.currentPageToGet
      }

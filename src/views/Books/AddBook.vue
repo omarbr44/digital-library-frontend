@@ -2,7 +2,7 @@
     <Loading v-if="load" />
     <div v-else>
         <nav  style="--bs-breadcrumb-divider: '<';
-         background-color: #f7f7f7;" aria-label="breadcrumb">
+         background-color: #f7f7f7; margin-top: 7rem;" aria-label="breadcrumb">
              <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
                 <li class="breadcrumb-item active">اضافة كتاب</li>
                 <li class="breadcrumb-item " aria-current="page"><RouterLink :to="{name:'Home'}">الرئيسية</RouterLink></li>
@@ -96,7 +96,7 @@
                     </form>
                     </div>
                     <div class="col-12 col-lg-4 flex-center px-0 rounded-2" > 
-                       <AddSwiperSection />
+                       <AddSwiperSection namee="الكتاب"/>
                     </div>
 
                 </div>
@@ -251,7 +251,7 @@ import { useRouter,RouterLink } from "vue-router";
                 loadButton.value = false
                 router.push({
                     name:'showbooks',
-                    query:{msg:' تم ارسال الكتاب بنجاح، بإنتظار موافقة الادمن'}
+                    query:{msg:' تم ارسال الكتاب بنجاح، بإنتظار موافقة إدارة الموقع'}
                 })
             } 
         }

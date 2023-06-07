@@ -5,7 +5,7 @@
                                 {{ BookDetailshidden }}
                             </p> 
 
-                            <p @click="ChangeText" class=" green-text show-more" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <p v-if="BookDetailshidden" @click="ChangeText" class=" green-text show-more" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             {{ BookDetailsButton }}
                             </p>
 

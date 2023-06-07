@@ -66,7 +66,7 @@ const submit = async ()=>{
     password:''
 }
     const {awaitdata,awaiterror} = await usePost("api/login/",user.value)
-     if(awaiterror.value == 'البيانات المدخلة غير صحيحه او ان الحساب غير مفعل من قبل الادمن')
+     if(awaiterror.value == 'البيانات المدخلة غير صحيحه او ان الحساب غير مفعل من قبل ادارة الموقع')
     userErr.value.username = awaiterror.value
    else if(awaiterror.value)
     userErr.value = awaiterror.value

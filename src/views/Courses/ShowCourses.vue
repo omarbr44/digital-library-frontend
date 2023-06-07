@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="route.query.msg" class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
+        <div v-if="msgQuery" class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert">
   <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
   <div>
     {{ route.query.msg }}
@@ -8,15 +8,15 @@
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
         <Hero :obj="{
-            el1 : 'تصفح الكورسات ',
-            el2 : 'تصفح الكورسات الموجودة مع خاصية البحث وايضا الفلترة بالفئات مع امكانية تحميل الكورس',
+            el1 : 'تصفح الدورات ',
+            el2 : 'تصفح الدورات مع خاصية البحث بالإسم وتحديد الفئة مع امكانية تحميل الدورة',
             el3 : 'addcourse',
-            el4 : 'اضافة كورس'
+            el4 : 'اضافة دورة'
         }" />
         <nav  style="--bs-breadcrumb-divider: '<';
          background-color: #f7f7f7;" aria-label="breadcrumb">
              <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
-                <li class="breadcrumb-item active">تصفح الكورسات</li>
+                <li class="breadcrumb-item active">تصفح الدورات</li>
                 <li class="breadcrumb-item " aria-current="page"><RouterLink :to="{name:'Home'}">الرئيسية</RouterLink></li>
              </ol>
         </nav> 
@@ -37,12 +37,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 import AsyncShowCourses from '../../components/Async/AsyncShowCourses.vue';
 import Hero from '../../components/Hero.vue';
 import Pagination from '../../components/pagination.vue';
 import Search_filter from '../../components/Search_filter.vue';
 import { useRoute,RouterLink } from 'vue-router';
+
+onMounted(()=>{
+        if(route.query.msg){
+            msgQuery.value = route.query.msg
+            setTimeout(()=>{
+                msgQuery.value = null
+                history.replaceState({},'',location.href.split('?')[0])
+            },5000)
+        }
+    })
 
     const route = useRoute()
     const searchValue = ref('')
@@ -51,6 +61,7 @@ import { useRoute,RouterLink } from 'vue-router';
     const currentPage = ref(1)
     const currentPageToGet = ref(1)
     const refreshPaginat = ref(true)
+    const msgQuery = ref(null)
 
     const searchValueMethod = (n)=>{
         searchValue.value = n

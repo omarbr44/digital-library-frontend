@@ -7,10 +7,11 @@
   </div>
 </div>
         <div class="container p-3" style="margin-top: 6rem;">
-        <div class="row " >
+        <div class="row mt-4" >
             <h1 class="h1 rtl"> السنة الاكاديمية</h1>
-            <div class="col-12 gy-3 rtl ">  
-                <div class="cataContainer">
+            <div class="col-12 gy-3 rtl "> 
+                <Loading  v-if="!years"/> 
+                <div v-else class="cataContainer">
                                 <div v-for="item in years" :key="item.id" class="m-3">
                                     <div class="embed-responsive embed-responsive-1by1 flex">
                                      <h4>{{ item.year }}</h4>
@@ -22,11 +23,11 @@
                        </div>
             </div>
         </div>
-        <form @submit.prevent="submit" class="rtl" >
+        <form @submit.prevent="submit" class="rtl mt-5" >
         <BaseInput 
             v-model="adddepart.year"
             type="text"
-            label=" السنة الاكاديمية"
+            label=" إضافة سنة اكاديمية"
             required
         />
         <button class="btn btnn mb-3 br-green " >
@@ -44,6 +45,7 @@ import { useGet } from '../composables/useGet';
 import { usePost } from '../composables/usePost';
 import { useRouter,useRoute } from "vue-router";
 import { useDelete } from '../composables/useDelete';
+import Loading from "../components/BaseLoading.vue";
 
 
  const years = ref(null)

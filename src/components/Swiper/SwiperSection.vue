@@ -89,7 +89,8 @@ const backBut = ()=>{
 .swiper-slide img {
   display: block;
   width: 100%;
-  height: clamp(10rem,1rem + 25vw,30rem);
+  /*  height: clamp(10rem,1rem + 25vw,30rem);*/
+  height: 18rem;
   cursor: pointer;
   
 }

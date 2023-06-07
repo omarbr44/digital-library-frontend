@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                        <h1 class="h1"> حسابات</h1>
+                        <h1 class="h1"> الحسابات</h1>
                 </div>
         <div class="container p-3">
         <div class="row " >

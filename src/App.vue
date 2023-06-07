@@ -64,6 +64,9 @@ a{
 .clamp-padding{
 padding: 0.4rem clamp(4rem,10vmax,8rem) ;
 }
+.clamp-padding1{
+padding: 0.4rem clamp(4rem,10vmax,4rem) ;
+}
 .rtl{
   direction: rtl;
 }
@@ -126,6 +129,7 @@ padding: 0.4rem clamp(4rem,10vmax,8rem) ;
     .btn-danger:hover{
       background-color: var(--bs-btn-hover-bg);
     }
+
 </style>
 
 

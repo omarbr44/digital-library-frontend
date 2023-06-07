@@ -72,7 +72,7 @@
                     </form>
                     </div>
                     <div class="col-12 col-lg-4 flex-center px-0 rounded-2" > 
-                       <AddSwiperSection namee="البرامج"/>
+                       <AddSwiperSection namee="البرنامج"/>
                     </div>
 
                 </div>
@@ -159,7 +159,7 @@ import { useRouter,RouterLink } from "vue-router";
              } else{
                  router.push({
                      name:'showprograms',
-                     query:{msg:'تم ارسال البرنامج بنجاح، بإنتظار موافقة الادمن'}
+                     query:{msg:'تم ارسال البرنامج بنجاح، بإنتظار موافقة إدارة الموقع'}
                  })
              } 
             } 

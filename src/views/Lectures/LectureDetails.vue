@@ -1,7 +1,8 @@
 <template>
     <div>
+        <Deletee :url="'api/Lecture/destroy/'+id" :showDelete="showDelete" go="showlectures" @cancel="showDelete = false"/>
     <nav  style="--bs-breadcrumb-divider: '<';
-        background-color: #f7f7f7;" aria-label="breadcrumb">
+        background-color: #f7f7f7; margin-top: 7rem;" aria-label="breadcrumb" >
          <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
             <li class="breadcrumb-item active">تفاصيل المحاضرة</li>
             <li class="breadcrumb-item "><RouterLink :to="{name:'showlectures'}">تصفح المحاضرات</RouterLink> </li>
@@ -9,7 +10,7 @@
          </ol>
     </nav>
         <div class="container px-4 px-md-3" >
-            <AsyncLectureDetails :id="id" @lectures="lectures"/>
+            <AsyncLectureDetails :id="id" @lectures="lectures" @delete="deletee"/>
         </div>
         <h1 v-if="similarExist" class="h1 text-end m-4  mx-5 display-4 "> محاضرات المادة</h1>
             <SwiperSection  :similar="similar" @Similar="lectureSimilarChose" />
@@ -20,6 +21,7 @@
 import SwiperSection from "../../components/Swiper/SwiperSection.vue";
 import { useRoute,RouterLink,useRouter } from "vue-router";
 import { ref,watch } from "vue";
+import Deletee from "../../components/BaseDelete.vue";
 import AsyncLectureDetails from "../../components/Async/AsyncLectureDetails.vue";
 
  const route = useRoute()
@@ -27,6 +29,7 @@ import AsyncLectureDetails from "../../components/Async/AsyncLectureDetails.vue"
 
  const id = ref(route.params.id) 
  const similar = ref(null)
+ const showDelete = ref(false)
  const similarExist = ref(false)
 
  const lectures = (lectures)=>{
@@ -39,6 +42,10 @@ import AsyncLectureDetails from "../../components/Async/AsyncLectureDetails.vue"
  watch([id, () => id.value], ([idd]) => { 
    router.push('/lectureDetails/'+idd)
     }) 
+    const deletee = ()=>{
+    showDelete.value = true
+    window.scrollTo(0,350)
+}
 
 </script>
 

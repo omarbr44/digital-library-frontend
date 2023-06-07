@@ -1,5 +1,5 @@
 <template>
-     <footer class="bd-footer py-5 mt-5 bk-dark text-white">
+     <footer class="bd-footer py-5  bk-dark text-white" style="margin-top: 5rem;">
   <div class="container ">
     <div class="row">
       

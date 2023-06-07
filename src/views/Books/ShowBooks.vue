@@ -8,13 +8,13 @@
 </div>
         <Hero :obj="{
             el1 : 'تصفح الكتب ',
-            el2 : 'تصفح الكتب الموجودة مع خاصية البحث وايضا الفلترة بالفئات مع امكانية تحميل الكتاب',
+            el2 : 'تصفح الكتب مع خاصية البحث بالإسم وتحديد الكاتب والفئة مع امكانية تحميل الكتاب',
             el3 : 'addbook',
             el4 : 'اضافة كتاب'
         }" />
         <nav  style="--bs-breadcrumb-divider: '<';
          background-color: #f7f7f7;" aria-label="breadcrumb">
-             <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
+             <ol class="breadcrumb justify-content-end mx-4 my-3 p-3" >
                 <li class="breadcrumb-item active">تصفح الكتب</li>
                 <li class="breadcrumb-item " aria-current="page"><RouterLink :to="{name:'Home'}">الرئيسية</RouterLink></li>
              </ol>

@@ -34,6 +34,7 @@ const error = ref(null)
 const pagetoget = ref(1)
 
 watchEffect(async ()=>{
+    data.value = null
     if(props.refreshPaginat === false ){
          pagetoget.value = props.currentPageToGet
      }

@@ -38,7 +38,7 @@
     <div class="carousel-item darken" :class="{active: index == 0}" v-for="(key,index) in dataads" :key="key.id">
       <img :src="url+key.image" class="d-block w-100 " height="500">
       <div class="carousel-caption d-md-block">
-        <h5>{{ key.title }}</h5>
+        <h5 style="overflow-wrap: break-word;">{{ key.title }}</h5>
         <p>{{ key.description }}</p>
       </div>
     </div>
@@ -144,49 +144,10 @@
  
 </div>
 </section> -->
-
-   <section class="slider slid_prog">
-    <div  class="container">
-    <h4 class="h4 text-end mb-4 display-4 dark-text">جديد البرامج</h4>
-    <loading v-if="!dataProgram && !error" :iswhite="true" />
-      <swiper v-else
-    :effect="'coverflow'"
-    :grabCursor="true"
-    :centeredSlides="true"
-    :slidesPerView="'auto'"
-    :coverflowEffect="{
-      rotate: 50,
-      stretch: 0,
-      depth: 100,
-      modifier: 1,
-      slideShadows: true,
-    }"
-    :pagination="true"
-    class="mySwiper mt-5"
-  > 
-    <swiper-slide v-for="key in dataProgram" :key="key.id">
-      <RouterLink 
-         :to="{
-          name: 'programdetails',
-          params: {id:key.id}
-              }">
-              <img  style="  box-shadow: 0px 0 25px 0 rgb(0 0 0 / 20%);
-" :src="url+key.image" width="270" height="200" />
-      </RouterLink>
-      <div class="text-center" >
-        <h3 style="font-size: 1.3rem;" class="mt-4 dark-text">{{ key.name }}</h3>
-      </div>
-      </swiper-slide>
-  </swiper>
-  <RouterLink :to="{name:'showprograms'}" class="bk-green btn btn-lg text-white  mb-3 br-green" >المزيد </RouterLink>
-
-    </div>
-   </section>
-   <hr>
-   <section class="slider slid_prog">
+<section class="slider slid_prog">
     <div  class="container">
     <h4 class="h4 text-end mb-4 display-4 dark-text">جديد الكتب</h4>
-    <loading v-if="!data && !error" :iswhite="true" />
+    <loading v-if="!data && !error"  />
       <swiper v-else
     :effect="'coverflow'"
     :grabCursor="true"
@@ -208,8 +169,8 @@
           name: 'bookdetails',
           params: {id:key.id}
               }">
-              <img  style="  box-shadow: 0px 0 25px 0 rgb(0 0 0 / 20%);
-" :src="url+key.image" width="270" height="200" />
+              <img  style="box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+" :src="url+key.image" width="270" height="200" class="mt-3" />
       </RouterLink>
       <div class="text-center" >
         <h3 style="font-size: 1.3rem;" class=" mt-4 dark-text">{{ key.name }}</h3>
@@ -223,8 +184,47 @@
    <hr>
    <section class="slider slid_prog">
     <div  class="container">
+    <h4 class="h4 text-end mb-4 display-4 dark-text">جديد البرامج</h4>
+    <loading v-if="!dataProgram && !error"  />
+      <swiper v-else
+    :effect="'coverflow'"
+    :grabCursor="true"
+    :centeredSlides="true"
+    :slidesPerView="'auto'"
+    :coverflowEffect="{
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    }"
+    :pagination="true"
+    class="mySwiper mt-5"
+  > 
+    <swiper-slide v-for="key in dataProgram" :key="key.id">
+      <RouterLink 
+         :to="{
+          name: 'programdetails',
+          params: {id:key.id}
+              }">
+              <img  style="box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+" :src="url+key.image" width="270" height="200" class="mt-3" />
+      </RouterLink>
+      <div class="text-center" >
+        <h3 style="font-size: 1.3rem;" class="mt-4 dark-text">{{ key.name }}</h3>
+      </div>
+      </swiper-slide>
+  </swiper>
+  <RouterLink :to="{name:'showprograms'}" class="bk-green btn btn-lg text-white  mb-3 br-green" >المزيد </RouterLink>
+
+    </div>
+   </section>
+   <hr>
+   
+   <section class="slider slid_prog">
+    <div  class="container">
     <h4 class="h4 text-end mb-4 display-4 dark-text">جديد الدورات</h4>
-    <loading v-if="!dataCourses && !error" :iswhite="true" />
+    <loading v-if="!dataCourses && !error"  />
       <swiper v-else
     :effect="'coverflow'"
     :grabCursor="true"
@@ -246,8 +246,8 @@
           name: 'coursedetails',
           params: {id:key.id}
               }">
-              <img  style="  box-shadow: 0px 0 25px 0 rgb(0 0 0 / 20%);
-" :src="url+key.image" width="270" height="200" />
+              <img  style="box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+" :src="url+key.image" width="270" height="200" class="mt-3" />
       </RouterLink>
       <div class="text-center" >
         <h3 style="font-size: 1.3rem;" class="mt-4 dark-text">{{ key.name }}</h3>
@@ -256,6 +256,19 @@
   </swiper>
   <RouterLink :to="{name:'showcourses'}" class="bk-green btn btn-lg text-white  mb-3 br-green" >المزيد </RouterLink>
 
+  <div class="row align-items-lg-center my-3 p-3 " >
+    <div class="d-flex flex-column flex-md-row  my-3 justify-content-center" >
+                          <RouterLink :to="{name:'showlectures'}" class="btn btn-lg clamp-padding1 btn-bd-primary mb-3 mx-5 bk-green text-white rounded-pill" >
+                              <span >تصفح المحاضرات</span>
+                          </RouterLink>
+                          <RouterLink :to="{name:'showprojects'}" class="btn btn-lg clamp-padding1 btn-bd-primary mb-3 mx-5 bk-green text-white rounded-pill" >
+                              <span >تصفح المشاريع</span>
+                          </RouterLink>
+                          <RouterLink :to="{name:'showads'}" class="btn btn-lg clamp-padding1 btn-bd-primary mb-3 mx-5 bk-green text-white rounded-pill" >
+                              <span >تصفح الاعلانات</span>
+                          </RouterLink>
+                   </div>
+    </div>
     </div>
    </section>
    <hr>
@@ -263,12 +276,12 @@
   <div class="col " data-aos="fade-up" data-aos-delay="150">
     <h1 class="mb-3 display-3 fw-bold text-center clamp-font p-3">" انشر علما، ليبقى اثرا "</h1>
     <p class="lead mb-4 text-center">
-امكانية رفع اي وسائط تعليمية سواء كانت كتب , دورات ، برامج ، كتب صوتية</p>
+امكانية رفع اي وسائط تعليمية سواء كانت كتب , دورات ، برامج </p>
     <div class=" text-white text-center my-5">
-      <RouterLink :to="{name:k}"  class="bk-green btn btn-lg fs-2 text-white rounded-pill br-green clamp-padding" > 
+      <!-- <RouterLink :to="{name:k}"  class="bk-green btn btn-lg fs-2 text-white rounded-pill br-green clamp-padding" > 
         <svg  xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload mx-2 mb-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
         رفع للمكتبة
-     </RouterLink>
+     </RouterLink> -->
     </div>
   </div>
  
@@ -295,8 +308,8 @@ const dataads = ref(null)
 const error = ref(null)
 const msgQuery = ref(null)
 const route = useRoute()
-const k = ref(null)
-const klist = ref(['addcourse','addbook','addprogram'])
+/* const k = ref(null)
+ */const klist = ref(['addcourse','addbook','addprogram'])
 onMounted(async()=>{
         if(route.query.msg){
             msgQuery.value = route.query.msg
@@ -305,8 +318,8 @@ onMounted(async()=>{
                 history.replaceState({},'',location.href.split('?')[0])
             },5000)
         }
-       k.value = Math.random() * klist.value.length
-       k.value = klist.value[Math.floor( k.value )]
+      /*  k.value = Math.random() * klist.value.length
+       k.value = klist.value[Math.floor( k.value )] */
     })
 watchEffect(async ()=>{
       
@@ -347,7 +360,7 @@ watchEffect(async ()=>{
   width: 100%;
 }
 .darken::after{
-  content: 'المكتبة الرقمية';
+  content: '';
     position: absolute;
     width: 100%;
     z-index: 100;

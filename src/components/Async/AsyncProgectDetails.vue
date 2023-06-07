@@ -3,7 +3,7 @@
     <div v-else class="row my-5 justify-content-center" >
                     <div class="sec-order col-12 col-lg-7 rtl gy-5"  >  
                         <div class="d-flex flex-column flex-md-row text-white my-3">
-                            <a @click="deletee" v-if="userStore.userType == '1'" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف المشروع </a>
+                            <a @click="$emit('delete')" v-if="userStore.userType == '1'" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف المشروع </a>
                         </div>  
                         <h2 class="my-3">{{ data.title }}</h2>
                         <button  type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">{{ category[0].name }}</button>
@@ -29,8 +29,7 @@
 import { watchEffect,ref } from "vue";
 import Description from "../BaseDescription.vue";
 import { useGet } from '../../composables/useGet';
-/* import { useUpdate } from '../../composables/useUpdate';
- */import { useDelete } from '../../composables/useDelete';
+/* import { useUpdate } from '../../composables/useUpdate';*/
 import Loading from "../BaseLoading.vue";
 import geturl from '../../composables/geturl';
 import { useUserStore } from '@/stores/user'
@@ -52,6 +51,7 @@ const userStore= useUserStore()
     const error = ref(null)
 
         watchEffect(async()=>{
+            data.value = null
             const { awaitdata,awaiterror } = await useGet('api/Project/show/'+props.id) 
             data.value = awaitdata.value[0]
             category.value= awaitdata.value[2]
@@ -61,14 +61,7 @@ const userStore= useUserStore()
             error.value = awaiterror.value
             emit('similarProgects',similarProgects.value)
         })
-        
-        const deletee = async ()=>{
-                const { awaitdata,awaiterror } = await useDelete('api/Project/destroy/'+data.value.number)
-                if(awaitdata.value)
-                {
-                    router.push({name:'showprojects'})
-                }
-        }
+
     </script>
 
 <style scoped>

@@ -21,8 +21,8 @@ const url = geturl()
   const navtoggle = ()=>{
     svg.value.classList.toggle("hid")
     svg.value.classList.toggle("white")
-    logo.value.classList.toggle("hid")
-    logo1.value.classList.toggle("hid")
+    /* logo.value.classList.toggle("hid")
+    logo1.value.classList.toggle("hid") */
     smalllogo.value.classList.toggle("hid")
     smalllogo1.value.classList.toggle("hid")
     container.value.classList.toggle("reverse")
@@ -51,16 +51,19 @@ const url = geturl()
 </script>
 <template>
    <header>
-    <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background: white;box-shadow: 0px 0 25px 0 rgb(0 0 0 / 40%);">
+    <nav class="navbar navbar-expand-sm navbar-light fixed-top" style="background: white;box-shadow: 0px 0 10px 0 rgb(0 0 0 / 40%);">
       <div class="container">
-        <div>
-        <a ref="logo" class="navbar-brand m-0" href="/"><img src="../assets/img/logo.png" alt="logo" width="60"></a>
+        <div style="width: 16%;
+    display: flex;
+    align-items: center;">
         <a ref="logo1" class="navbar-brand m-0" href="/"><img src="../assets/img/hadramot.png" alt="logo" style="width: 6rem;cursor:default;"></a>
+        <a ref="logo" class="navbar-brand m-0" href="/"><img src="../assets/img/logo.png" alt="logo" width="60"></a>
+        <h5 class="my-0 dark-text" style="margin-left: 1rem;">المكتبة الرقمية</h5>
       </div>
       <div style="position: absolute;margin-top: 2rem;">
       <a ref="smalllogo" class="navbar-brand hid smalllogo m-0" href="/"><img src="../assets/img/whitelogo.png" alt="logo" width="60"></a>
       <a ref="smalllogo1" class="navbar-brand m-0 hid smalllogo" href="#"><img src="../assets/img/hadramot.png" alt="logo" style="width: 6rem;cursor:default;"></a>
-      </div>
+    </div>
       <button @click="navtoggle" class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
       aria-expanded="false" aria-label="Toggle navigation">
       <span ref="icon" class="navbar-toggler-icon">
@@ -76,18 +79,14 @@ const url = geturl()
               الرئيسية  
             </RouterLink>
           </li>
-          <li class="col">
-            <RouterLink :to="{name:'Home'}">
-              عن الموقع  
-            </RouterLink>
-          </li>
+         
           <li v-if="userStore.userType == 1" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             النظام
           </a>
           <ul class="dropdown-menu dropdown-menuSmallNav" aria-labelledby="navbarDarkDropdownMenuLink">
-            <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'usersshow'}">المستخدمين </RouterLink></li>
-            <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'catagoriesadd'}">الاصناف </RouterLink></li>
+            <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'usersshow'}">الحسابات </RouterLink></li>
+            <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'catagoriesadd'}">الفئات </RouterLink></li>
             <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'department'}">الاقسام </RouterLink></li>
             <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'years'}">السنة الاكاديمية </RouterLink></li>
            
@@ -136,11 +135,16 @@ const url = geturl()
             <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'showcourses'}">تصفح الدورات</RouterLink></li>
             <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'showprograms'}">تصفح البرامج</RouterLink></li>
             <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'showprojects'}">تصفح المشاريع</RouterLink></li>
-            <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'showads'}">تصفح الاعلانات</RouterLink></li>
+            <li><RouterLink v-if="userStore.userType == 1" class="dropdown-item text-end text-white" :to="{name:'showads'}">تصفح الاعلانات</RouterLink></li>
             <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'showlectures'}">تصفح المحاضرات</RouterLink></li>
-            <li><RouterLink class="dropdown-item text-end text-white" :to="{name:'showsug'}">تصفح الاقتراحات</RouterLink></li>
+            <li><RouterLink v-if="userStore.userType == 1" class="dropdown-item text-end text-white" :to="{name:'showsug'}">تصفح الاقتراحات</RouterLink></li>
           </ul>
         </li>
+        <li class="col">
+            <RouterLink :to="{name:'Home'}">
+              عن الموقع  
+            </RouterLink>
+          </li>
           <li v-if="!userStore.token">
             <RouterLink class="btn btn-lg bk-green text-white my-4" :to="{name:'signup'}">
           <span class="fw-bold">انشاء حساب</span>
@@ -164,6 +168,12 @@ const url = geturl()
     <div class="big-nav">
       <div>
         <ul class="navbar-nav mt-2 mt-lg-0 p-0 ">
+          <li  class="nav-item">
+            <RouterLink class="nav-link" :to="{name:'Home'}">
+          <span class="fw-bold">عن الموقع</span>
+              <div class="line-under"></div>               
+            </RouterLink>
+          </li>
           <li class="nav-item dropdown dropdown1">
           <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button">
             <span class="fw-bold">اضافة</span>
@@ -198,8 +208,8 @@ const url = geturl()
             <span class="fw-bold">النظام</span>
           </a>
           <ul class="dropdown-menu " >
-            <li><RouterLink class="dropdown-item text-end" :to="{name:'usersshow'}">المستخدمين</RouterLink></li>
-            <li><RouterLink class="dropdown-item text-end" :to="{name:'catagoriesadd'}">الاصناف</RouterLink></li>
+            <li><RouterLink class="dropdown-item text-end" :to="{name:'usersshow'}">الحسابات</RouterLink></li>
+            <li><RouterLink class="dropdown-item text-end" :to="{name:'catagoriesadd'}">الفئات</RouterLink></li>
             <li><RouterLink class="dropdown-item text-end" :to="{name:'department'}">الاقسام</RouterLink></li>
             <li><RouterLink class="dropdown-item text-end" :to="{name:'years'}">السنة الاكاديمية</RouterLink></li>
           </ul>
@@ -222,12 +232,7 @@ const url = geturl()
             <li><RouterLink class="dropdown-item text-end" :to="{name:'changepass'}">تغيير كلمة المرور</RouterLink></li>
           </ul>
         </li>
-        <li  class="nav-item">
-            <RouterLink class="nav-link" :to="{name:'Home'}">
-          <span class="fw-bold">عن الموقع</span>
-              <div class="line-under"></div>               
-            </RouterLink>
-          </li>
+        
           <li  class="nav-item">
             <RouterLink class="nav-link" :to="{name:'Home'}">
           <span class="fw-bold">الرئيسية</span>
@@ -273,12 +278,11 @@ const url = geturl()
 </template>
 
 <style scoped>
-
+.dropdown-menu{
+  --bs-dropdown-link-active-bg: var(--bs-seccolor)
+}
 li.dropdown1:hover .dropdown-menu {
     display: block;
-}
-.dropdown-menu{
-  --bs-dropdown-link-active-bg: var(--bs-firstcolor);
 }
 .dropdown-menuSmallNav{
   --bs-dropdown-link-hover-bg: var(--bs-seccolor);
@@ -288,7 +292,8 @@ li.dropdown1:hover .dropdown-menu {
     font-size: 1.8rem;
     list-style: none;
     margin: 2rem;
-    margin-top: 7rem;
+    margin-top: 5rem;
+    display: block;
 }
 .dropdown-menuSmallNav{
   background: none;
@@ -309,7 +314,7 @@ li.col{
     z-index: 3;
     top: 0;
     right: 0;
-    transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.1s;
     transform: translateX(2000px);
 
 }
@@ -348,6 +353,15 @@ li.col a:hover{
 span{
   position: relative;
 }
+.contain::before{
+  content: "";
+    position: absolute;
+    left: -116px;
+    right: -125px;
+    top: 0;
+    bottom: 0;
+    background: rgb(34 36 58)
+}
 .line-under{
     width: 1px;
     height: 1px;
@@ -368,10 +382,16 @@ span:hover~.line-under{
   background-color: var(--bs-seccolor);
   color: white;
 }
-@media (max-width: 575px) {
-   .big-nav{
+@media (max-width: 1200px) {
+   .navbar-expand-sm .navbar-toggler{
+    display: block !important;
+  }
+  .big-nav{
     display: none;
    }
+   .navbar-expand-sm .navbar-nav .dropdown-menu{
+      position: inherit !important;
+    }
    
   .white{
   color: white;
@@ -381,9 +401,13 @@ span:hover~.line-under{
 
 }
 }
-@media (min-width: 577px) {
+
+@media (min-width: 1200px) {
     .contain{
         display: none !important;
+    }
+    .smalllogo{
+      display: none !important;
     }
  
 }

@@ -9,7 +9,7 @@
             <div class="col-12 col-lg-3 centercol"> 
             </div>
             <div class="col-12 col-lg-6 gy-3 rtl text-white centercol">  
-                <h1 v-if="userStore.userType == 3" class="h1"> انشاء حساب للادمن</h1>
+                <h1 v-if="userStore.userType == 3" class="h1"> انشاء حساب لإدارة الموقع</h1>
                 <h1 v-else class="h1"> انشاء حساب للكادر التعليمي</h1>
                 <form @submit.prevent="submit" >
                         <BaseInput 
@@ -91,7 +91,7 @@ const submit = async ()=>{
         }
         else{
             router.push({name:'Home',
-                         query:{msg:' تم انشاء الحساب بنجاح، بإنتظار موافقة الادمن'}
+                         query:{msg:' تم انشاء الحساب بنجاح،الرجاء التواصل مع إدارة الموقع لتفعيل الحساب من خلال الرقم : 777777777'}
                         })
         }
     }

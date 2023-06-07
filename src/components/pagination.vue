@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!props.pages">
+    <div v-if="props.pages > 1">
         <nav aria-label="Page navigation example">
                  <ul  class="pagination justify-content-center">
                      <li v-if="!previous" class="page-item disabled">
@@ -43,6 +43,7 @@ import { ref,watchEffect,watch } from 'vue';
             next.value = props.currentPage+1
             watchEffect(()=>{
                 pagess.value = props.pages   // because watch works only with ref 
+                console.log(props.pages)
     })
 
         watch([pagess, () => pagess.value], ([newPages, hjj]) => { //  we only refresh the paginaton if the total pages changed

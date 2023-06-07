@@ -7,14 +7,16 @@
                     </div>
                     <div class="col-9 col-lg-3"  >  
                         <div class="mb-3 search">
-                             <input type="text" class="form-control rtl"  placeholder="ابحث ..." v-model="searchValue">
+                             <input type="text" class="form-control rtl"  placeholder="البحث ..." v-model="searchValue">
                         </div>
                     </div>
                     <div class=" col-lg-2"  >  
                        
                     </div>
-                    <div class="col-12 col-lg-6 rtl ">  
+                    <div v-if="router.currentRoute.value.name != 'showlectures'" style="display: flex;
+    align-items: center;" class="col-12 col-lg-6 rtl ">  
                             <img src="../assets/img/edit.png" alt="filter" @click="displayFilters=!displayFilters" class="mx-3" style="width:2rem"  role="button">
+                            <h6 style="color: #575a5d; cursor: pointer;" class="m-0 dark-text" @click="displayFilters=!displayFilters">تصفية</h6 >
 <!--                         <button v-if="filterValue" type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">{{filterValue}}</button>    
  -->                    </div>
                  </div>
@@ -29,7 +31,7 @@
                     <div v-if="cata" class="col-12 rtl">
                         <SelectInput
                             v-model="filterValue"
-                            label="الصنف"
+                            label="الفئة"
                             :list="categories"
                         />
                     </div>
@@ -133,6 +135,9 @@ import SelectInput from './Form/BaseSelectInput.vue';
            const { awaitdata } = await useGet('api/Author') 
            authors.value = awaitdata.value
        }
+       else if(router.currentRoute.value.name == 'showlectures')
+       displayFilters.value = true
+
        
     })
 

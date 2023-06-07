@@ -40,7 +40,7 @@ const props = defineProps({
 })
 const multi = ref(false)
 onMounted(()=>{
-    if(props.label == 'ملف الكورس' || props.label == 'ملف المحاضرة'){
+    if(props.label == 'ملف الدورة' || props.label == 'ملف المحاضرة' || props.label == 'اضافة مقاطع'){
         multi.value = true
     }
 

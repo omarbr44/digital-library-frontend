@@ -1,11 +1,14 @@
 <template>
+   
+    
     <Loading v-if="!data" />
     <div v-else class="row my-5 justify-content-center" >
+
                     <div class="sec-order col-12 col-lg-7 rtl gy-5"  >  
                         <div class="d-flex flex-column flex-md-row text-white my-3">
-                        <a @click="accept" v-if="userStore.userType == '1' && !edit"  class="btn btn-lg btn-bd-primary mb-3 br-green " >قبول الكتاب </a>
+                        <a @click="accept" v-if="userStore.userType == '1' && !edit"  class="btn btn-lg btn-bd-primary mb-3 br-green mx-3" >قبول الكتاب </a>
                         <RouterLink v-if="userStore.userType == '1'" class="btn btn-lg btn-bd-primary mb-3 br-green " :to="{name:'updatebook',params:{id:data[0].id}}">تعديل الكتاب</RouterLink>
-                        <a @click="deletee" v-if="userStore.userType == '1'" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف الكتاب </a>
+                        <a @click="$emit('delete')" v-if="userStore.userType == '1'" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف الكتاب </a>
                     </div>
                         <h2 class="my-3">{{ data[0].name }}</h2>
                         <button  type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">{{ category[0].name }}</button>
@@ -33,7 +36,6 @@ import { watchEffect,ref } from "vue";
 import Description from "../BaseDescription.vue";
 import { useGet } from '../../composables/useGet';
 import { useUpdate } from '../../composables/useUpdate';
-import { useDelete } from '../../composables/useDelete';
 import Loading from "../BaseLoading.vue";
 import geturl from '../../composables/geturl';
 import { useUserStore } from '@/stores/user'
@@ -57,6 +59,7 @@ const userStore= useUserStore()
     const error = ref(null)
     const edit = ref(true)
         watchEffect(async()=>{
+            data.value = null
             const { awaitdata,awaiterror } = await useGet('api/BooK/show/'+props.id) 
             data.value = awaitdata.value[0]
             if(data.value[0].accepted == 0)
@@ -79,16 +82,11 @@ const userStore= useUserStore()
                     router.go()
                 }
         }
-        const deletee = async ()=>{
-                const { awaitdata,awaiterror } = await useDelete('api/BooK/destroy/'+data.value[0].id)
-                if(awaitdata.value)
-                {
-                    router.push({name:'showbooks'})
-                }
-        }
+        
     </script>
 
 <style scoped>
+
 @media only screen and (max-width: 992px) {
     .sec-order{
         order: 2;

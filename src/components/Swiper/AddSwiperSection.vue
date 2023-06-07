@@ -16,7 +16,7 @@
                                <img src="../../assets/img/library.jpg" class=""  alt="book" style="position: absolute;">
                                <div class="under-swipe ">
                                <h2 class="my-1 text-white">إضافة {{ namee }}</h2>
-                               <p class="my-3 text-white text-center"> أكمل تعبئة القوالب لإضافة {{ namee }} الى الموقع   </p>
+                               <p class="my-3 text-white text-center"> أكمل تعبئة التفاصيل لإضافة {{ namee }} الى الموقع   </p>
                                <p class="mt-2 grey-text  text-center"> ".إن القراءة هي رياضة العقل، فبالقراءة تحافظ على قوة وصحة العقل"</p>
                                </div>
                            </swiper-slide>
@@ -24,7 +24,7 @@
                                <img src="../../assets/img/booksver.jpg" class=""  alt="book" style="position: absolute;">
                                <div class="under-swipe ">
                                <h2 class="my-1 text-white">إضافة {{ namee }}</h2>
-                               <p class="my-3 text-white text-center"> أكمل تعبئة القوالب لإضافة {{namee}} الى الموقع  </p>
+                               <p class="my-3 text-white text-center"> أكمل تعبئة التفاصيل لإضافة {{namee}} الى الموقع  </p>
                                <p class="mt-2 grey-text  text-center"> ".تعتبر القراءة من النشاطات المسلية التي يستطيع أي فرد ممارستها، فهي من أفضل وسائل الترفيه"</p>
                                </div>
                            </swiper-slide>
@@ -32,7 +32,7 @@
                                <img src="../../assets/img/program.jpg" class=""  alt="book" style="position: absolute;">
                                <div class="under-swipe ">
                                <h2 class="my-1 text-white">إضافة {{ namee }}</h2>
-                               <p class="my-3 text-white text-center"> أكمل تعبئة القوالب لإضافة {{namee}} الى الموقع </p>
+                               <p class="my-3 text-white text-center"> أكمل تعبئة التفاصيل لإضافة {{namee}} الى الموقع </p>
                                <p class="mt-2 grey-text  text-center"> ".تمنح قراءة الكتب فرصة تعليم وثقافة مجانية، وذلك بالاطلاع على العديد من الموضوعات التي يرغب الفرد بالتعرف عليها"</p>
                                
                            </div>

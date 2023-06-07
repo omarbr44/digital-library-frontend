@@ -42,6 +42,7 @@ onMounted(()=>{
     
     watchEffect(async ()=>{                      // so if we select an author while we are at the 2 page
                                                 // the page to get will refresh 
+                data.value = null
         if(props.refreshPaginat === false ){
          pagetoget.value = props.currentPageToGet
      }

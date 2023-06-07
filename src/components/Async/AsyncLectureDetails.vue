@@ -1,10 +1,10 @@
 <template>
-    <Loading v-if="!data" />
+    <Loading v-if="!data"  />
     <div v-else class="row my-5 justify-content-center" >
                     <div class="sec-order col-12 col-lg-7 rtl gy-5"  > 
                         <div class="d-flex flex-column flex-md-row text-white my-3">
-                            <a @click="accept" v-if="userStore.userType == '2'"  class="btn btn-lg btn-bd-primary mb-3 br-green " >تعديل المحاضرة </a>
-                            <a @click="deletee" v-if="userStore.userType == '2'" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف المحاضرة </a>
+                            <a @click="accept" v-if="userStore.userType == '2' && data.user_id == userStore.userid"  class="btn btn-lg btn-bd-primary mb-3 br-green " >تعديل المحاضرة </a>
+                            <a @click="$emit('delete')" v-if="userStore.userType == '2' && data.user_id == userStore.userid" class="btn btn-lg  mb-3 mx-3 btn-danger " >حذف المحاضرة </a>
                         </div>  
                         <h2 class="my-3">{{ data.name }}</h2>
                         <button  type="button" class="btn bk-dark text-white " disabled style="opacity: 1;font-size: 0.8rem;">{{ subject[0].name }}</button>
@@ -26,7 +26,6 @@ import { watchEffect,ref } from "vue";
 import Description from "../BaseDescription.vue";
 import { useGet } from '../../composables/useGet';
 import { useUpdate } from '../../composables/useUpdate';
-import { useDelete } from '../../composables/useDelete';
 import Loading from "../BaseLoading.vue";
 import geturl from '../../composables/geturl';
 import { useUserStore } from '@/stores/user'
@@ -49,8 +48,8 @@ const userStore= useUserStore()
     const error = ref(null)
 
         watchEffect(async()=>{
+            data.value = null
             const { awaitdata,awaiterror } = await useGet('api/Lecture/show/'+props.id) 
-            console.log(awaitdata.value)
             data.value = awaitdata.value[0]
             lectures.value = awaitdata.value[1].data
             doctor.value= awaitdata.value[2]
@@ -66,14 +65,7 @@ const userStore= useUserStore()
              const { awaitdata,awaiterror } = await useUpdate('api/Lecture/update/'+props.id,data.value[0])
                console.log(awaitdata.value)
         }
-        const deletee = async ()=>{
-                const { awaitdata,awaiterror } = await useDelete('api/Lecture/destroy/'+data.value.id)
-                if(awaitdata.value)
-                {
-                    router.push({name:'showlectures'})
-                }
-        }
-        
+
     </script>
 
 <style scoped>

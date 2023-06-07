@@ -4,7 +4,7 @@
         <nav  style="--bs-breadcrumb-divider: '<';
          background-color: #f7f7f7;" aria-label="breadcrumb">
              <ol class="breadcrumb justify-content-end mx-4 my-3 p-3">
-                <li class="breadcrumb-item active">اضافة كورس</li>
+                <li class="breadcrumb-item active">اضافة دورة</li>
                 <li class="breadcrumb-item " aria-current="page"><RouterLink :to="{course_name:'Home'}">الرئيسية</RouterLink></li>
              </ol>
         </nav> 
@@ -17,7 +17,7 @@
                         <BaseInput 
                             v-model="courseObj.course_name"
                             type="text"
-                            label="عنوان الكورس"
+                            label="عنوان الدورة"
                             :error="courseErr.course_name"
                             required
                             req=1
@@ -25,7 +25,7 @@
                       
                         <SelectInput 
                             v-model="courseObj.category_id"
-                            label="قسم الكورس"
+                            label="قسم الدورة"
                             :error="courseErr.category_id"
                             :list="lisstCategory"
                             required
@@ -35,13 +35,13 @@
                             <div v-if="courseErr.course_description">
                              <div class="alert alert-danger" role="alert">{{ courseErr.course_description }}</div>
                             </div>
-                            <label  class="form-label"> وصف الكورس</label>
+                            <label  class="form-label"> وصف الدورة</label>
                              <textarea maxlength="253" class="form-control rtl"  
-                             placeholder="ادخل وصف الكورس" v-model="courseObj.course_description"></textarea>
+                             placeholder="ادخل وصف الدورة" v-model="courseObj.course_description"></textarea>
                         </div>
                         <FileInput 
                             @filevalue="filevalue"
-                            label="صورة للكورس"
+                            label="صورة للدورة"
                             :error="courseErr.image"
                             underDetailes="صيغة الصورة JPG,PNG"
                             required
@@ -49,7 +49,7 @@
                              />
                         <FileInput 
                             @filevalue="filevalue"
-                            label="ملف الكورس"
+                            label="ملف الدورة"
                             :error="courseErr.file_path"
                             underDetailes="صيغة الملف zip"
                             required
@@ -67,7 +67,7 @@
                     </form>
                     </div>
                     <div class="col-12 col-lg-4 flex-center px-0 rounded-2" > 
-                       <AddSwiperSection namee="الكورس"/>
+                       <AddSwiperSection namee="الدورة"/>
                     </div>
 
                 </div>
@@ -111,10 +111,10 @@ import { useRouter,RouterLink } from "vue-router";
 
 
     const filevalue = (file,label)=>{
-        if(label == 'ملف الكورس'){
+        if(label == 'ملف الدورة'){
             courseObj.value.file_path = file;
         }
-       else if(label == 'صورة للكورس'){
+       else if(label == 'صورة للدورة'){
             courseObj.value.image = file;
         }
                                     }        
@@ -137,7 +137,6 @@ import { useRouter,RouterLink } from "vue-router";
                         }
             
             let formdata1 = new FormData();
-            console.log(courseObj.value.file_path)
             formdata1.append('course_name', courseObj.value.course_name);
             formdata1.append('accepted', courseObj.value.accepted);
             formdata1.append('category_id', courseObj.value.category_id);
@@ -160,7 +159,7 @@ import { useRouter,RouterLink } from "vue-router";
                 loadButton.value = false
                 router.push({
                     name:'showcourses',
-                    query:{msg:' تم ارسال الكورس بنجاح، بإنتظار موافقة الادمن'}
+                    query:{msg:' تم ارسال الدورة بنجاح، بإنتظار موافقة إدارة الموقع'}
                 })
              }
             } 

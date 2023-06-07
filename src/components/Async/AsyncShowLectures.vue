@@ -1,5 +1,6 @@
 <template>
-<Lecture v-for=" bit in data" :data="bit" Details="lecturedetails"/> 
+  <Loading v-if="!data && subjects" />
+<Lecture v-if="data" v-for=" bit in data" :data="bit" Details="lecturedetails"/> 
 </template>
 
 <script setup>
@@ -34,11 +35,15 @@ const props = defineProps({
   }
 })
 const data = ref(null)
+const subjects = ref(null)
 const error = ref(null)
 const pagetoget = ref(1)
 
-watchEffect(async ()=>{                      // so if we select an author while we are at the 2 page
-                                          // the page to get will refresh 
+watchEffect(async ()=>{   
+
+                  data.value = null
+                  subjects.value = null
+                  subjects.value = props.filterValue
   if(props.refreshPaginat === false ){
    pagetoget.value = props.currentPageToGet
 }
@@ -47,7 +52,7 @@ else{
 }
   const { awaitdata,awaiterror } = await useGet('api/Lecture?like=lectures.name,'+props.searchValue+
                                               '&page='+pagetoget.value+'&subject_id='+
-                                              props.filterValue+'&department_id='+props.department_id+'&user_id='+props.user_id) 
+                                              subjects.value+'&department_id='+props.department_id+'&user_id='+props.user_id) 
   console.log(awaitdata.value)
   if(props.filterValue){
     data.value = awaitdata.value.data
